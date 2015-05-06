@@ -12,8 +12,12 @@ public class UnsafeHeapByteBufferReader implements ByteBufferReader {
 
   private long offset;
   private byte[] array;
+  private ByteBuffer buf;
+  private int mark;
 
   public UnsafeHeapByteBufferReader(ByteBuffer buf) {
+    this.buf = buf;
+
     if (!buf.hasArray()) {
       throw new UnsupportedOperationException("buf (" + buf + ") must have a backing array");
     }
@@ -21,62 +25,75 @@ public class UnsafeHeapByteBufferReader implements ByteBufferReader {
     array = buf.array();
   }
 
-  @Override
-  public byte getByte() {
+
+  public byte get() {
     byte v = Unsafe.UNSAFE.getByte(array, offset);
     offset += 1;
     return v;
   }
 
-  @Override
-  public byte[] getBytes(byte[] dst, int len) {
+
+  public byte[] get(byte[] dst, int len) {
     Unsafe.UNSAFE.copyMemory(array, offset, dst, Unsafe.BYTE_ARRAY_BASE_OFFSET, len);
     return dst;
   }
 
-  @Override
+
   public short getShort() {
     short v = Unsafe.UNSAFE.getShort(array, offset);
     offset += 2;
     return v;
   }
 
-  @Override
+
   public int getInt() {
     int v = Unsafe.UNSAFE.getInt(array, offset);
     offset += 4;
     return v;
   }
 
-  @Override
+
   public long getLong() {
     long v = Unsafe.UNSAFE.getLong(array, offset);
     offset += 8;
     return v;
   }
 
-  @Override
+
   public float getFloat() {
     float v = Unsafe.UNSAFE.getFloat(array, offset);
     offset += 4;
     return v;
   }
 
-  @Override
+
   public double getDouble() {
     double v = Unsafe.UNSAFE.getDouble(array, offset);
     offset += 8;
     return v;
   }
 
-  @Override
+
   public int position() {
     return (int) (offset - Unsafe.BYTE_ARRAY_BASE_OFFSET);
   }
 
-  @Override
+
+
   public ByteBufferReader position(int newPosition) {
     offset = Unsafe.BYTE_ARRAY_BASE_OFFSET + newPosition;
     return this;
+  }
+
+  public ByteBuffer getBuf() {
+    return buf;
+  }
+
+  public int getMark() {
+    return mark;
+  }
+
+  public void setMark(int mark) {
+    this.mark=mark;
   }
 }

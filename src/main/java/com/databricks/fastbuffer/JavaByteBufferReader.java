@@ -10,57 +10,77 @@ import java.nio.ByteOrder;
  */
 public class JavaByteBufferReader implements ByteBufferReader {
 
-  private ByteBuffer buf;
+    private ByteBuffer buf;
+    private int mark = -1;
 
-  public JavaByteBufferReader(ByteBuffer buf) {
-    this.buf = buf.duplicate();
-    this.buf.order(ByteOrder.nativeOrder());
-  }
+    public JavaByteBufferReader(ByteBuffer buf) {
+        this.setBuf(buf.duplicate());
+        this.getBuf().order(ByteOrder.nativeOrder());
+    }
 
-  @Override
-  public byte getByte() {
-    return buf.get();
-  }
 
-  @Override
-  public byte[] getBytes(byte[] dst, int len) {
-    buf.get(dst, 0, len);
-    return dst;
-  }
+    public byte get() {
+        return getBuf().get();
+    }
 
-  @Override
-  public short getShort() {
-    return buf.getShort();
-  }
 
-  @Override
-  public int getInt() {
-    return buf.getInt();
-  }
+    public byte[] get(byte[] dst, int len) {
+        getBuf().get(dst, 0, len);
+        return dst;
+    }
 
-  @Override
-  public long getLong() {
-    return buf.getLong();
-  }
 
-  @Override
-  public float getFloat() {
-    return buf.getFloat();
-  }
+    public short getShort() {
+        return getBuf().getShort();
+    }
 
-  @Override
-  public double getDouble() {
-    return buf.getDouble();
-  }
 
-  @Override
-  public int position() {
-    return buf.position();
-  }
+    public int getInt() {
+        return getBuf().getInt();
+    }
 
-  @Override
-  public ByteBufferReader position(int newPosition) {
-    buf.position(newPosition);
-    return this;
-  }
+
+    public long getLong() {
+        return getBuf().getLong();
+    }
+
+
+    public float getFloat() {
+        return getBuf().getFloat();
+    }
+
+
+    public double getDouble() {
+        return getBuf().getDouble();
+    }
+
+
+    public int position() {
+        return getBuf().position();
+    }
+
+
+    public ByteBufferReader position(int newPosition) {
+        getBuf().position(newPosition);
+        return this;
+    }
+
+    @Override
+    public ByteBuffer getBuf() {
+        return buf;
+    }
+
+    @Override
+    public int getMark() {
+        return mark;
+    }
+
+    @Override
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
+
+    public void setBuf(ByteBuffer buf) {
+        this.buf = buf;
+    }
 }

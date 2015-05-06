@@ -1,23 +1,48 @@
 package com.databricks.fastbuffer;
 
 
+import java.nio.ByteBuffer;
+
 public interface ByteBufferReader {
 
-  public byte getByte();
+    byte get();
 
-  public byte[] getBytes(byte[] dst, int len);
+    byte[] get(byte[] dst, int len);
 
-  public short getShort();
+    short getShort();
 
-  public int getInt();
+    int getInt();
 
-  public long getLong();
+    long getLong();
 
-  public float getFloat();
+    float getFloat();
 
-  public double getDouble();
+    double getDouble();
 
-  public int position();
+    int position();
 
-  public ByteBufferReader position(int newPosition);
+    ByteBufferReader position(int newPosition);
+
+
+    default int mark() {
+        int position = position();
+        setMark(position);
+        return position;
+    }
+
+    default ByteBufferReader reset() {
+        return position(getMark());
+    }
+
+    default ByteBuffer commit() {
+        return (ByteBuffer) getBuf().position(position());
+    }
+
+    ByteBuffer getBuf();
+
+    int getMark();
+
+    void setMark(int mark);
+
+
 }

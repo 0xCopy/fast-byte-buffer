@@ -75,14 +75,14 @@ public class ByteBufferReaderTest {
   private static void testData(ByteBufferReader reader) {
     assertEquals(reader.getInt(), 655350);
     assertEquals(reader.getLong(), 10034534500L);
-    assertEquals(reader.getByte(), (byte) 1);
+    assertEquals(reader.get(), (byte) 1);
     assertEquals(reader.getDouble(), 1.5, 0);
     assertEquals(reader.getFloat(), 2.5, 0);
     assertEquals(reader.getShort(), (short) 2);
 
-    assertEquals(reader.getByte(), (byte) 15);
-    assertEquals(reader.getByte(), (byte) 25);
-    assertEquals(reader.getByte(), (byte) 35);
+    assertEquals(reader.get(), (byte) 15);
+    assertEquals(reader.get(), (byte) 25);
+    assertEquals(reader.get(), (byte) 35);
 
     assertEquals(reader.getShort(), (short) 10);
     assertEquals(reader.getShort(), (short) 1000);
