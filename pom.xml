@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.databricks</groupId>
+    <groupId>com.github.0xcopy</groupId>
     <artifactId>fast-byte-buffer</artifactId>
     <version>2.1</version>
 
